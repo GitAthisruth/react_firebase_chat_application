@@ -1,9 +1,7 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
+import { getApp, initializeApp } from "firebase/app";
+import { getApp } from "firebase/app";
+
 const firebaseConfig = {
     apiKey: "AIzaSyD05z9JFVPltFAkoGqxeKW8XviVemC3gWo",
     authDomain: "anatomy-lab-chat-test-app.firebaseapp.com",
@@ -15,3 +13,28 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const auth = getApp
+const db = getFirestore(app);
+
+const signup = async (username, email, password) => {
+    try {
+        const res = await createUserWithEmailAndPassword(auth, email, password);
+        const user = res.user;
+        await setDoc(doc(db, "users", user.uid), {
+            id: user.uid,
+            username: username.toLowerCase(),
+            email,
+            name: "",
+            avatar: "",
+            bio: "Hey,There I am using chat app",
+            lastSeen: Date.now()
+        })
+        await setDoc(doc(db, "chats", user.uid), {
+            chatData: []
+
+        })
+
+    } catch (error) {
+        console.error(error)
+    }
+}
