@@ -1,7 +1,8 @@
 
 import { initializeApp } from "firebase/app";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { toast } from "react-toastify";
 
 const firebaseConfig = {
     apiKey: "AIzaSyD05z9JFVPltFAkoGqxeKW8XviVemC3gWo",
@@ -40,4 +41,13 @@ const signup = async (username, email, password) => {
     }
 }
 
-export { signup }
+const login = async (email, password) => {
+    try {
+        await signInWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+        console.error(error)
+        toast.error(error.message)
+    }
+}
+
+export { signup, login }
