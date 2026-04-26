@@ -1,6 +1,7 @@
 
-import { getApp, initializeApp } from "firebase/app";
-import { getApp } from "firebase/app";
+import { initializeApp } from "firebase/app";
+import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 const firebaseConfig = {
     apiKey: "AIzaSyD05z9JFVPltFAkoGqxeKW8XviVemC3gWo",
@@ -11,9 +12,8 @@ const firebaseConfig = {
     appId: "1:14576108321:web:a8c0a0c7c01e1f62fd7460"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getApp
+const auth = getAuth(app);
 const db = getFirestore(app);
 
 const signup = async (username, email, password) => {
@@ -36,5 +36,8 @@ const signup = async (username, email, password) => {
 
     } catch (error) {
         console.error(error)
+        toast.error(error.message)
     }
 }
+
+export { signup }
